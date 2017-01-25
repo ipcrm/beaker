@@ -304,12 +304,12 @@ module Beaker
     # enable root on a single host (the current one presumably) but only
     # if the username isn't 'root'
     def enable_root(host)
-#      if host['user'] != 'root'
-#        copy_ssh_to_root(host, @options)
+      if host['user'] != 'root'
+        copy_ssh_to_root(host, @options)
 #        enable_root_login(host, @options)
-#        host['user'] = 'root'
-#        host.close
-#      end
+        host['user'] = 'root'
+        host.close
+      end
     end
 
     #Get key_name from options or generate a new rsa key and add it to
