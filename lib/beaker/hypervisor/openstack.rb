@@ -293,19 +293,23 @@ module Beaker
     # @return [void]
     # @api private
     def enable_root_on_hosts
-      @hosts.each do |host|
-        enable_root(host)
+      if host[:platform] !~ /windows/
+        @hosts.each do |host|
+          enable_root(host)
+        end
       end
     end
 
     # enable root on a single host (the current one presumably) but only
     # if the username isn't 'root'
     def enable_root(host)
-      if host['user'] != 'root'
-        copy_ssh_to_root(host, @options)
-        enable_root_login(host, @options)
-        host['user'] = 'root'
-        host.close
+      if host[:platform] !~ /windows/
+        if host['user'] != 'root'
+          copy_ssh_to_root(host, @options)
+          enable_root_login(host, @options)
+          host['user'] = 'root'
+          host.close
+        end
       end
     end
 
