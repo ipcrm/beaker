@@ -24,7 +24,6 @@ module Beaker
     def wait_for_dns_resolution host, try, attempts
       @logger.notify "Waiting for #{host['vmhostname']} DNS resolution"
       begin
-        puts @vsphere_helper.find_vms(host['vmhostname'])[host['vmhostname']].summary.guest.ipAddress
         Socket.getaddrinfo(host['vmhostname'], nil)
       rescue
         if try <= attempts
@@ -150,7 +149,13 @@ module Beaker
         try = (Time.now - start) / 5
         duration = run_and_report_duration do
           @hosts.each_with_index do |h, i|
-            wait_for_dns_resolution(h, try, attempts)
+            #wait_for_dns_resolution(h, try, attempts)
+            until @vsphere_helper.find_vms(h['vmhostname'])[h['vmhostname']].summary.guest.ipAddress != nil
+              sleep 5
+            end
+
+            @hosts[h]['ip'] = @vsphere_helper.find_vms(h['vmhostname'])[h['vmhostname']].summary.guest.ipAddress
+
           end
         end
         @logger.notify "Spent %.2f seconds waiting for DNS resolution" % duration
