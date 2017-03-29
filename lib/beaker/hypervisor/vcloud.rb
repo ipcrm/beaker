@@ -148,9 +148,9 @@ module Beaker
 
         try = (Time.now - start) / 5
         duration = run_and_report_duration do
-          @hosts.each_with_index do |h, i|
-            wait_for_dns_resolution(h, try, attempts)
-          end
+#          @hosts.each_with_index do |h, i|
+#            wait_for_dns_resolution(h, try, attempts)
+#          end
         end
         @logger.notify "Spent %.2f seconds waiting for DNS resolution" % duration
       rescue => e
