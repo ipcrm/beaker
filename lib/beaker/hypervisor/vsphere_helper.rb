@@ -126,7 +126,9 @@ class VsphereHelper
 
   def find_folder foldername
     datacenter = @connection.serviceInstance.find_datacenter(@datacenter)
-    datacenter.vmFolder.traverse(foldername)
+    base = datacenter.vmFolder.traverse(foldername)
+    warn base
+    base
   end
 
   def find_pool poolname
