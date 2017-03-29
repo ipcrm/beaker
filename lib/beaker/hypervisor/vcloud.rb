@@ -154,7 +154,7 @@ module Beaker
               sleep 5
             end
 
-            @hosts[h]['ip'] = @vsphere_helper.find_vms(h['vmhostname'])[h['vmhostname']].summary.guest.ipAddress
+            @hosts[h][:ip] = @vsphere_helper.find_vms(h['vmhostname'])[h['vmhostname']].summary.guest.ipAddress
 
           end
         end
