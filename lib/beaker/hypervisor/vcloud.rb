@@ -10,7 +10,7 @@ module Beaker
 
       raise 'You must specify a datastore for vCloud instances!' unless @options['datastore']
       raise 'You must specify a folder for vCloud instances!' unless @options['folder']
-      raise 'You must specify a folder for vCloud instances!' unless @options['datacenter']
+      raise 'You must specify a datacenter for vCloud instances!' unless @options['datacenter']
       @vsphere_credentials = VsphereHelper.load_config(@options[:dot_fog])
     end
 
