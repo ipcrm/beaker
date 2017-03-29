@@ -133,6 +133,7 @@ class VsphereHelper
         when RbVmomi::VIM::Folder
           base = base.childEntity.find { |f| f.name == folder }
         else
+          abort "O NOES #{base}"
           abort "Unexpected object type encountered (#{base.class}) while finding folder"
       end
     end
