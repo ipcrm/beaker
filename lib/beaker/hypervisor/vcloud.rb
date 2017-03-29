@@ -77,8 +77,8 @@ module Beaker
 
       # Put the VM in the specified folder and resource pool
       relocateSpec = RbVmomi::VIM.VirtualMachineRelocateSpec(
-        :datastore    => @vsphere_helper.find_datastore(@options['datastore']),
-        :pool         => @options['resourcepool'] ? @vsphere_helper.find_pool(@options['resourcepool']) : nil,
+        :datastore    => @vsphere_helper.find_datastore(@options['datacenter'],@options['datastore']),
+        :pool         => @options['resourcepool'] ? @vsphere_helper.find_pool(@options['datacenter'],@options['resourcepool']) : nil,
         :diskMoveType => :moveChildMostDiskBacking
       )
 
@@ -120,7 +120,7 @@ module Beaker
 
           if templatefolders
             warn "HEY NOW"
-            vm[h['template']] = @vsphere_helper.find_folder(templatefolders.join('/')).find(h['template'])
+            vm[h['template']] = @vsphere_helper.find_folder(@options['datacenter'],templatefolders.join('/')).find(h['template'])
           else
             vm = @vsphere_helper.find_vms(h['template'])
           end
@@ -132,7 +132,7 @@ module Beaker
           spec = create_clone_spec(h)
 
           # Deploy from specified template
-          tasks << vm[h['template']].CloneVM_Task( :folder => @vsphere_helper.find_folder(@options['folder']), :name => h['vmhostname'], :spec => spec )
+          tasks << vm[h['template']].CloneVM_Task( :folder => @vsphere_helper.find_folder(@options['datacenter'],@options['folder']), :name => h['vmhostname'], :spec => spec )
         end
         try = (Time.now - start) / 5
         @vsphere_helper.wait_for_tasks(tasks, try, attempts)
