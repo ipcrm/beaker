@@ -119,6 +119,7 @@ module Beaker
           vm = {}
 
           if templatefolders
+            warn "HEY NOW"
             vm[h['template']] = @vsphere_helper.find_folder(templatefolders.join('/')).find(h['template'])
           else
             vm = @vsphere_helper.find_vms(h['template'])
