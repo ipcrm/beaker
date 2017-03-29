@@ -134,7 +134,7 @@ class VsphereHelper
           warn "NOES!!! #{base.name}"
           base = base.childEntity.find { |f| f.name == folder }
         else
-          warn "O NOES #{base}"
+          warn "O NOES #{base.name}"
           abort "Unexpected object type encountered (#{base.class}) while finding folder"
       end
     end
