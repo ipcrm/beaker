@@ -119,12 +119,20 @@ class VsphereHelper
   end
 
   def find_datastore datastorename
-    datacenter = @connection.serviceInstance.find_datacenter
+    if vInfo[:datacenter].nil?
+      datacenter = @connection.serviceInstance.find_datacenter
+    else
+      datacenter = @connection.serviceInstance.find_datacenter(vInfo[:datacenter])
+    end
     datacenter.find_datastore(datastorename)
   end
 
   def find_folder foldername
-    datacenter = @connection.serviceInstance.find_datacenter
+    if vInfo[:datacenter].nil?
+      datacenter = @connection.serviceInstance.find_datacenter
+    else
+      datacenter = @connection.serviceInstance.find_datacenter(vInfo[:datacenter])
+    end
     base = datacenter.vmFolder
     folders = foldername.split('/')
     folders.each do |folder|
