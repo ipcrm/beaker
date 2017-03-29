@@ -5,6 +5,7 @@ require 'beaker/logger'
 class VsphereHelper
   def initialize vInfo
     @logger = vInfo[:logger] || Beaker::Logger.new
+    @datacenter = vInfo[:datacenter]
     @connection = RbVmomi::VIM.connect :host     => vInfo[:server],
                                        :user     => vInfo[:user],
                                        :password => vInfo[:pass],
@@ -119,20 +120,12 @@ class VsphereHelper
   end
 
   def find_datastore datastorename
-    if vInfo[:datacenter].nil?
-      datacenter = @connection.serviceInstance.find_datacenter
-    else
-      datacenter = @connection.serviceInstance.find_datacenter(vInfo[:datacenter])
-    end
+    datacenter = @connection.serviceInstance.find_datacenter(@datacenter)
     datacenter.find_datastore(datastorename)
   end
 
   def find_folder foldername
-    if vInfo[:datacenter].nil?
-      datacenter = @connection.serviceInstance.find_datacenter
-    else
-      datacenter = @connection.serviceInstance.find_datacenter(vInfo[:datacenter])
-    end
+    datacenter = @connection.serviceInstance.find_datacenter(@datacenter)
     base = datacenter.vmFolder
     folders = foldername.split('/')
     folders.each do |folder|
@@ -148,7 +141,7 @@ class VsphereHelper
   end
 
   def find_pool poolname
-    datacenter = @connection.serviceInstance.find_datacenter
+    datacenter = @connection.serviceInstance.find_datacenter(@datacenter)
     base = datacenter.hostFolder
     pools = poolname.split('/')
     pools.each do |pool|

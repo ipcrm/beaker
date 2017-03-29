@@ -10,6 +10,7 @@ module Beaker
 
       raise 'You must specify a datastore for vCloud instances!' unless @options['datastore']
       raise 'You must specify a folder for vCloud instances!' unless @options['folder']
+      raise 'You must specify a folder for vCloud instances!' unless @options['datacenter']
       @vsphere_credentials = VsphereHelper.load_config(@options[:dot_fog])
     end
 
@@ -95,7 +96,6 @@ module Beaker
     def provision
       connect_to_vsphere
       begin
-        vsphere_vms = {}
 
         try = 1
         attempts = @options[:timeout].to_i / 5
