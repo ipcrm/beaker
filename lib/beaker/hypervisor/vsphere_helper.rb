@@ -5,7 +5,8 @@ require 'beaker/logger'
 class VsphereHelper
   def initialize vInfo
     @logger = vInfo[:logger] || Beaker::Logger.new
-    @datacenter = vInfo['datacenter']
+    @datacenter = vInfo[:datacenter]
+    warn @datacenter
     @connection = RbVmomi::VIM.connect :host     => vInfo[:server],
                                        :user     => vInfo[:user],
                                        :password => vInfo[:pass],
