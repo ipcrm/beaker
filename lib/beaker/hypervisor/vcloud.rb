@@ -148,13 +148,13 @@ module Beaker
 
         try = (Time.now - start) / 5
         duration = run_and_report_duration do
-          @hosts.each_with_index do |h, i|
+          @hosts.each do |host|
             #wait_for_dns_resolution(h, try, attempts)
-            until @vsphere_helper.find_vms(h['vmhostname'])[h['vmhostname']].summary.guest.ipAddress != nil
+            until @vsphere_helper.find_vms(host['vmhostname'])[host['vmhostname']].summary.guest.ipAddress != nil
               sleep 5
             end
 
-            @hosts[h][:ip] = @vsphere_helper.find_vms(h['vmhostname'])[h['vmhostname']].summary.guest.ipAddress
+            host[:ip] = @vsphere_helper.find_vms(host['vmhostname'])[host['vmhostname']].summary.guest.ipAddress
 
           end
         end
