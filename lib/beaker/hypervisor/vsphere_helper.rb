@@ -131,7 +131,7 @@ class VsphereHelper
     folders.each do |folder|
       case base
         when RbVmomi::VIM::Folder
-          abort "NOES!!! #{base}"
+          abort "NOES!!! #{base.name}"
           base = base.childEntity.find { |f| f.name == folder }
         else
           abort "O NOES #{base}"
