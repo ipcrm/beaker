@@ -25,6 +25,7 @@ module Beaker
       @logger.notify "Waiting for #{host['vmhostname']} DNS resolution"
       begin
         Socket.getaddrinfo(host['vmhostname'], nil)
+        puts @vsphere_helper.find_vms(host['vmhostname'])[host['vmhostname']].summary.guest.ipAddress
       rescue
         if try <= attempts
           sleep 5
@@ -42,7 +43,6 @@ module Beaker
       until
         @vsphere_helper.find_vms(host['vmhostname'])[host['vmhostname']].summary.guest.toolsRunningStatus == 'guestToolsRunning' and
         @vsphere_helper.find_vms(host['vmhostname'])[host['vmhostname']].summary.guest.ipAddress != nil
-        puts @vsphere_helper.find_vms(host['vmhostname'])[host['vmhostname']].summary.guest.ipAddress
         if try <= attempts
           sleep 5
           try += 1
