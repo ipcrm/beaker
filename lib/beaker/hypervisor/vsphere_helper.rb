@@ -126,20 +126,7 @@ class VsphereHelper
 
   def find_folder foldername
     datacenter = @connection.serviceInstance.find_datacenter(@datacenter)
-    base = datacenter.vmFolder
-    folders = foldername.split('/')
-    folders.each do |folder|
-      case base
-        when RbVmomi::VIM::Folder
-          warn "NOES!!! #{base.name}"
-          base = base.childEntity.find { |f| f.name == folder }
-        else
-          warn "O NOES #{base.name}"
-          abort "Unexpected object type encountered (#{base.class}) while finding folder"
-      end
-    end
-
-    base
+    datacenter.vmFolder.traverse(foldername)
   end
 
   def find_pool poolname
